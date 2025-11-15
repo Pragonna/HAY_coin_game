@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { MongoClient } from 'mongodb';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -47,20 +48,52 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
 
-// Data storage
+
+// Data storage (MongoDB)
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(DB_FILE)) fs.writeFileSync(DB_FILE, JSON.stringify({ users: {}, sessions: {} }, null, 2));
 
-function loadDb() {
-	const content = fs.readFileSync(DB_FILE, 'utf-8');
-	return JSON.parse(content);
+const client = new MongoClient(process.env.MONGO_URI);
+let mongoDb;
+
+async function connectMongo() {
+    if (!mongoDb) {
+        await client.connect();
+        mongoDb = client.db('haygame');
+    }
+    return mongoDb;
 }
-function saveDb(db) {
-	const tmpFile = DB_FILE + '.tmp';
-	fs.writeFileSync(tmpFile, JSON.stringify(db, null, 2));
-	fs.renameSync(tmpFile, DB_FILE);
+
+export async function loadDb() {
+    const db = await connectMongo();
+    const usersArr = await db.collection('users').find({}).toArray();
+    const sessionsArr = await db.collection('sessions').find({}).toArray();
+
+    const users = {};
+    usersArr.forEach(u => { users[u.walletAddress] = u; });
+
+    const sessions = {};
+    sessionsArr.forEach(s => { sessions[s._id] = s; });
+
+    return { users, sessions };
+}
+
+export async function saveDb(dbObj) {
+    const db = await connectMongo();
+
+    const usersBulk = db.collection('users').initializeUnorderedBulkOp();
+    Object.values(dbObj.users).forEach(user => {
+        usersBulk.find({ walletAddress: user.walletAddress }).upsert().replaceOne(user);
+    });
+    if (usersBulk.length > 0) await usersBulk.execute();
+
+    const sessionsBulk = db.collection('sessions').initializeUnorderedBulkOp();
+    Object.entries(dbObj.sessions).forEach(([id, session]) => {
+        sessionsBulk.find({ _id: id }).upsert().replaceOne(session);
+    });
+    if (sessionsBulk.length > 0) await sessionsBulk.execute();
 }
 
 function endSession(db, sessionId, { removeSession = false } = {}) {
@@ -115,12 +148,12 @@ function createTransporter() {
 
 // Nonce generation for wallet signature
 const NONCE_TTL_MS = 5 * 60 * 1000;
-app.get('/api/nonce', (req, res) => {
-	const db = loadDb();
+app.get('/api/nonce', async (req, res) => {
+	const db = await loadDb();
 	const nonceId = uuidv4();
 	const expiresAt = Date.now() + NONCE_TTL_MS;
 	db.sessions[nonceId] = { type: 'nonce', expiresAt };
-	saveDb(db);
+	await saveDb(db);
 	res.json({ nonce: nonceId, message: `Sign to login: ${nonceId}` });
 });
 
@@ -132,7 +165,7 @@ function verifySignaturePlaceholder() {
 }
 
 // Connect Phantom wallet (verifies ownership via signed message)
-app.post('/api/connect', (req, res) => {
+app.post('/api/connect', async (req, res) => {
 	console.log('Connect endpoint hit:', req.method, req.path);
 	try {
 		const { walletAddress, nonce, signed } = req.body || {};
@@ -143,7 +176,7 @@ app.post('/api/connect', (req, res) => {
 			return res.status(400).json({ error: 'Missing walletAddress or nonce' });
 		}
 		
-		const db = loadDb();
+		const db = await loadDb();
 		const nonceRec = db.sessions[nonce];
 		
 		if (!nonceRec) {
@@ -202,7 +235,7 @@ app.post('/api/connect', (req, res) => {
 		
 		// Clean nonce
 		delete db.sessions[nonce];
-		saveDb(db);
+		await saveDb(db);
 		
 		res.json({ sessionId, user: db.users[walletAddress] });
 	} catch (error) {
@@ -212,14 +245,14 @@ app.post('/api/connect', (req, res) => {
 });
 
 // Update wallet address (handle wallet change)
-app.post('/api/update-wallet', (req, res) => {
+app.post('/api/update-wallet', async (req, res) => {
 	try {
 		const { sessionId, newWalletAddress } = req.body || {};
 		if (!sessionId || !newWalletAddress) {
 			return res.status(400).json({ error: 'Missing sessionId or newWalletAddress' });
 		}
 		
-		const db = loadDb();
+		const db = await loadDb();
 		const session = db.sessions[sessionId];
 		
 		if (!session || session.type !== 'game') {
@@ -253,7 +286,7 @@ app.post('/api/update-wallet', (req, res) => {
 			
 			// Update session with new wallet
 			session.walletAddress = newWalletAddress;
-			saveDb(db);
+			await saveDb(db);
 		}
 		
 		res.json({ sessionId, user: db.users[newWalletAddress] });
@@ -265,10 +298,10 @@ app.post('/api/update-wallet', (req, res) => {
 
 // Heartbeat: server-side timing and awards
 // Client should call every ~2s while alive
-app.post('/api/heartbeat', (req, res) => {
+app.post('/api/heartbeat', async (req, res) => {
 	const { sessionId } = req.body || {};
 	if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') return res.status(404).json({ error: 'Invalid session' });
 	if (!session.isAlive) {
@@ -280,7 +313,7 @@ app.post('/api/heartbeat', (req, res) => {
 	session.lastHeartbeat = now;
 	session.elapsedMsServer += delta;
 
-	saveDb(db);
+	await saveDb(db);
 	res.json({
 		status: 'alive',
 		elapsedMs: session.elapsedMsServer,
@@ -290,12 +323,12 @@ app.post('/api/heartbeat', (req, res) => {
 });
 
 // Progress endpoint: client reports obstacles passed (point-based)
-app.post('/api/progress', (req, res) => {
+app.post('/api/progress', async (req, res) => {
 	const { sessionId, passed = 0 } = req.body || {};
 	if (!sessionId || typeof passed !== 'number' || passed <= 0) {
 		return res.status(400).json({ error: 'Missing sessionId or invalid passed count' });
 	}
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') return res.status(404).json({ error: 'Invalid session' });
 	if (!session.isAlive) return res.status(400).json({ error: 'Session not alive' });
@@ -314,7 +347,7 @@ app.post('/api/progress', (req, res) => {
 		session.pointsAwarded = eligible;
 	}
 	user.totalAchievements += Math.floor(passed);
-	saveDb(db);
+	await saveDb(db);
 	res.json({
 		ok: true,
 		points: session.points,
@@ -324,10 +357,10 @@ app.post('/api/progress', (req, res) => {
 });
 
 // Report game over (resets round progress if < 3 minutes)
-app.post('/api/gameover', (req, res) => {
+app.post('/api/gameover', async (req, res) => {
 	const { sessionId } = req.body || {};
 	if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') return res.status(404).json({ error: 'Invalid session' });
 	if (!session.isAlive) {
@@ -337,24 +370,24 @@ app.post('/api/gameover', (req, res) => {
 
 	// End session and persist confirmed increments
 	endSession(db, sessionId, { removeSession: false });
-	saveDb(db);
+	await saveDb(db);
 	res.json({ ok: true, user: db.users[session.walletAddress] });
 });
 
 // Get user status
-app.get('/api/user/:walletAddress', (req, res) => {
+app.get('/api/user/:walletAddress', async (req, res) => {
 	const { walletAddress } = req.params;
-	const db = loadDb();
+	const db = await loadDb();
 	const user = db.users[walletAddress];
 	if (!user) return res.status(404).json({ error: 'User not found' });
 	res.json(user);
 });
 
 // Get user by session ID
-app.post('/api/user-by-session', (req, res) => {
+app.post('/api/user-by-session', async (req, res) => {
 	const { sessionId } = req.body || {};
 	if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') return res.status(404).json({ error: 'Invalid session' });
 	const user = db.users[session.walletAddress];
@@ -363,14 +396,14 @@ app.post('/api/user-by-session', (req, res) => {
 });
 
 // Convert saved points to HAY tokens (1000 points = 1 HAY)
-app.post('/api/convert', (req, res) => {
+app.post('/api/convert', async (req, res) => {
 	const { walletAddress, tokens = 1 } = req.body || {};
 	if (!walletAddress) return res.status(400).json({ error: 'Missing walletAddress' });
 	const n = Number(tokens);
 	if (!Number.isFinite(n) || n <= 0 || !Number.isInteger(n)) {
 		return res.status(400).json({ error: 'Invalid tokens value' });
 	}
-	const db = loadDb();
+	const db = await loadDb();
 	const user = db.users[walletAddress];
 	if (!user) return res.status(404).json({ error: 'User not found' });
 	const neededPoints = n * 1000;
@@ -380,7 +413,7 @@ app.post('/api/convert', (req, res) => {
 	}
 	user.savedPointsTotal = available - neededPoints;
 	user.hayBalance = (user.hayBalance || 0) + n;
-	saveDb(db);
+	await saveDb(db);
 	res.json({ ok: true, user });
 });
 
@@ -391,14 +424,14 @@ app.post('/api/withdraw', async (req, res) => {
 		return res.status(400).json({ error: 'Missing walletAddress or amount' });
 	}
 	if (amount < 100) return res.status(400).json({ error: 'Minimum withdrawal is 100 HAY' });
-	const db = loadDb();
+	const db = await loadDb();
 	const user = db.users[walletAddress];
 	if (!user) return res.status(404).json({ error: 'User not found' });
 	if (user.hayBalance < amount) return res.status(400).json({ error: 'Insufficient balance' });
 
 	user.hayBalance -= amount;
 	user.lastWithdrawalAt = new Date().toISOString();
-	saveDb(db);
+	await saveDb(db);
 
 	const transporter = createTransporter();
 	const toEmail = process.env.WITHDRAW_ALERT_EMAIL || 'pragonna.example@gmail.com';
@@ -425,12 +458,12 @@ app.post('/api/withdraw', async (req, res) => {
 });
 
 // Save best score
-app.post('/api/save-score', (req, res) => {
+app.post('/api/save-score', async (req, res) => {
 	const { sessionId, score } = req.body || {};
 	if (!sessionId || typeof score !== 'number') {
 		return res.status(400).json({ error: 'Missing sessionId or invalid score' });
 	}
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') {
 		return res.status(404).json({ error: 'Invalid session' });
@@ -448,14 +481,14 @@ app.post('/api/save-score', (req, res) => {
 		user.bestScore = score;
 	}
 	
-	saveDb(db);
+	await saveDb(db);
 	res.json({ ok: true, user });
 });
 
 
 // Get leaderboard (Top 10)
-app.get('/api/leaderboard', (req, res) => {
-	const db = loadDb();
+app.get('/api/leaderboard', async (req, res) => {
+	const db = await loadDb();
 	const users = Object.values(db.users || {});
 	
 	// Filter users with best score, sort by best score descending
@@ -472,17 +505,17 @@ app.get('/api/leaderboard', (req, res) => {
 });
 
 // Disconnect wallet/session
-app.post('/api/disconnect', (req, res) => {
+app.post('/api/disconnect', async (req, res) => {
 	const { sessionId } = req.body || {};
 	if (!sessionId) return res.status(400).json({ error: 'Missing sessionId' });
-	const db = loadDb();
+	const db = await loadDb();
 	const session = db.sessions[sessionId];
 	if (!session || session.type !== 'game') return res.status(404).json({ error: 'Invalid session' });
 	const user = db.users[session.walletAddress] || null;
 
 	// Treat disconnect as session end; persist confirmed points and remove session
 	endSession(db, sessionId, { removeSession: true });
-	saveDb(db);
+	await saveDb(db);
 
 	res.json({ ok: true, user });
 });

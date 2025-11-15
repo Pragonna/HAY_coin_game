@@ -374,8 +374,8 @@
       "type": "game",
       "walletAddress": "29CerP61s3EWKTdHZf8mFCMFj48kiW3iw8WwcrUsCvNq",
       "startedAt": 1763231292562,
-      "lastHeartbeat": 1763232380000,
-      "elapsedMsServer": 505358,
+      "lastHeartbeat": 1763234599885,
+      "elapsedMsServer": 690358,
       "isAlive": true,
       "points": 0,
       "pointsAwarded": 0
