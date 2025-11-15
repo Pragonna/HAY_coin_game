@@ -1,0 +1,384 @@
+{
+  "users": {
+    "1234567890123456789012345678901234567890": {
+      "userId": "1234567890123456789012345678901234567890",
+      "twitterUsername": "testuser",
+      "walletAddress": "1234567890123456789012345678901234567890",
+      "bestScore": 0,
+      "currentScore": 0,
+      "hayBalance": 0,
+      "totalMinutes": 0,
+      "totalAchievements": 0,
+      "savedPointsTotal": 0,
+      "hayFromPointsAwarded": 0,
+      "lastWithdrawalAt": null
+    },
+    "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp": {
+      "userId": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "twitterUsername": "pragonna",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "bestScore": 22,
+      "currentScore": 0,
+      "hayBalance": 0,
+      "totalMinutes": 0,
+      "totalAchievements": 17,
+      "savedPointsTotal": 30,
+      "hayFromPointsAwarded": 0,
+      "lastWithdrawalAt": null
+    },
+    "xRdYYmBXyvdXAKJFLDVTSXZM6sQg9YJQfvdsxPPfKCb": {
+      "userId": "xRdYYmBXyvdXAKJFLDVTSXZM6sQg9YJQfvdsxPPfKCb",
+      "walletAddress": "xRdYYmBXyvdXAKJFLDVTSXZM6sQg9YJQfvdsxPPfKCb",
+      "bestScore": 11,
+      "currentScore": 11,
+      "hayBalance": 0,
+      "totalMinutes": 0,
+      "totalAchievements": 5,
+      "savedPointsTotal": 0,
+      "hayFromPointsAwarded": 0,
+      "lastWithdrawalAt": null
+    },
+    "29CerP61s3EWKTdHZf8mFCMFj48kiW3iw8WwcrUsCvNq": {
+      "userId": "29CerP61s3EWKTdHZf8mFCMFj48kiW3iw8WwcrUsCvNq",
+      "walletAddress": "29CerP61s3EWKTdHZf8mFCMFj48kiW3iw8WwcrUsCvNq",
+      "bestScore": 16,
+      "currentScore": 0,
+      "hayBalance": 0,
+      "totalMinutes": 0,
+      "totalAchievements": 16,
+      "savedPointsTotal": 30,
+      "hayFromPointsAwarded": 0,
+      "lastWithdrawalAt": null
+    }
+  },
+  "sessions": {
+    "3e0d5e8e-01b4-4fad-87a8-8b2e408c396e": {
+      "type": "game",
+      "walletAddress": "1234567890123456789012345678901234567890",
+      "startedAt": 1763227018366,
+      "lastHeartbeat": 1763227018366,
+      "elapsedMsServer": 0,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "7d508329-e082-4cb3-9ccc-94f221135db0": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763227125237,
+      "lastHeartbeat": 1763227139848,
+      "elapsedMsServer": 14611,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "f7716bbd-2f16-4279-813a-ee8510c9e7b6": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763227140628,
+      "lastHeartbeat": 1763227369760,
+      "elapsedMsServer": 229132,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "6fe70e81-2176-4286-8f53-ac3e99677fe0": {
+      "type": "twitter-oauth",
+      "authToken": "6fe70e81-2176-4286-8f53-ac3e99677fe0",
+      "expiresAt": 1763228080017,
+      "status": "pending"
+    },
+    "6820f74e-b25f-416c-97c8-d8e41308a321": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763227502161,
+      "lastHeartbeat": 1763227744799,
+      "elapsedMsServer": 87748,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "20a921a2-689d-4ad8-8e0e-ea3ff1a71547": {
+      "type": "twitter-oauth",
+      "authToken": "20a921a2-689d-4ad8-8e0e-ea3ff1a71547",
+      "expiresAt": 1763228103676,
+      "status": "pending"
+    },
+    "09c26fe0-8237-456d-8c11-26ec7b281eb2": {
+      "type": "twitter-oauth",
+      "authToken": "09c26fe0-8237-456d-8c11-26ec7b281eb2",
+      "expiresAt": 1763228347645,
+      "status": "pending"
+    },
+    "4031a54f-8b68-47cd-bea2-84ec01e15d07": {
+      "type": "twitter-oauth",
+      "authToken": "4031a54f-8b68-47cd-bea2-84ec01e15d07",
+      "expiresAt": 1763228348794,
+      "status": "pending"
+    },
+    "e0df70d1-c36e-45f2-9bbc-b53c57c91309": {
+      "type": "twitter-oauth",
+      "authToken": "e0df70d1-c36e-45f2-9bbc-b53c57c91309",
+      "expiresAt": 1763228350098,
+      "status": "pending"
+    },
+    "dad0159f-c128-4889-bcd2-f3d17a7db292": {
+      "type": "twitter-oauth",
+      "authToken": "dad0159f-c128-4889-bcd2-f3d17a7db292",
+      "expiresAt": 1763228350283,
+      "status": "pending"
+    },
+    "a38364bc-9c2a-4372-8006-fdc15f927104": {
+      "type": "twitter-oauth",
+      "authToken": "a38364bc-9c2a-4372-8006-fdc15f927104",
+      "expiresAt": 1763228350462,
+      "status": "pending"
+    },
+    "d956d0c2-6a11-4629-acf5-a8dcea7a3573": {
+      "type": "twitter-oauth",
+      "authToken": "d956d0c2-6a11-4629-acf5-a8dcea7a3573",
+      "expiresAt": 1763228350610,
+      "status": "pending"
+    },
+    "f8529c18-8545-4459-a2cb-b6e8f42d8bf8": {
+      "type": "twitter-oauth",
+      "authToken": "f8529c18-8545-4459-a2cb-b6e8f42d8bf8",
+      "expiresAt": 1763228350779,
+      "status": "pending"
+    },
+    "07c0c15f-b219-409e-81f0-676f69d77da9": {
+      "type": "twitter-oauth",
+      "authToken": "07c0c15f-b219-409e-81f0-676f69d77da9",
+      "expiresAt": 1763228350948,
+      "status": "pending"
+    },
+    "e6707dd0-e413-4731-aa81-c649fbcfe7e9": {
+      "type": "twitter-oauth",
+      "authToken": "e6707dd0-e413-4731-aa81-c649fbcfe7e9",
+      "expiresAt": 1763228351126,
+      "status": "pending"
+    },
+    "8a3f3bc9-99b1-4ec5-bf4b-a690b1017372": {
+      "type": "twitter-oauth",
+      "authToken": "8a3f3bc9-99b1-4ec5-bf4b-a690b1017372",
+      "expiresAt": 1763228351294,
+      "status": "pending"
+    },
+    "b88f4791-5770-4382-921d-e466431df485": {
+      "type": "nonce",
+      "expiresAt": 1763228618352
+    },
+    "4d08b2b2-f4c5-4a3c-9896-2f18e4614cd5": {
+      "type": "nonce",
+      "expiresAt": 1763228619432
+    },
+    "7ec509df-3fd9-47b6-a423-4ce7d204be3d": {
+      "type": "nonce",
+      "expiresAt": 1763228620142
+    },
+    "e4bec350-c7b4-47c8-b50d-f486e8f459ad": {
+      "type": "nonce",
+      "expiresAt": 1763228621830
+    },
+    "ed09e396-f1e1-491a-a560-6f6e3b3d16cf": {
+      "type": "nonce",
+      "expiresAt": 1763228622016
+    },
+    "d79b2faa-1c8f-4da3-98b3-4e6dfc69b387": {
+      "type": "nonce",
+      "expiresAt": 1763228622227
+    },
+    "f8a262d2-ba28-428b-9d3b-a74d31accfef": {
+      "type": "nonce",
+      "expiresAt": 1763228622598
+    },
+    "9bf408be-7c06-4dcf-80e3-a7f4fe671600": {
+      "type": "nonce",
+      "expiresAt": 1763228623280
+    },
+    "7a50b35b-497a-46f6-8efc-ae385129008f": {
+      "type": "nonce",
+      "expiresAt": 1763228623481
+    },
+    "953456ac-16cb-4816-9485-294255e048b2": {
+      "type": "nonce",
+      "expiresAt": 1763228623697
+    },
+    "8c791caf-4738-40bb-9820-ef5fbf41055d": {
+      "type": "nonce",
+      "expiresAt": 1763228623898
+    },
+    "7f917d65-0489-455a-b34f-36f4701988b9": {
+      "type": "nonce",
+      "expiresAt": 1763228624114
+    },
+    "4306b9d6-6df5-4f43-b844-16675b93ad2f": {
+      "type": "nonce",
+      "expiresAt": 1763228624334
+    },
+    "4d1d4caf-6d33-41a2-8590-75d13bb30ce4": {
+      "type": "nonce",
+      "expiresAt": 1763228624517
+    },
+    "78c2782d-1056-4c5d-835e-64cd759cf8cd": {
+      "type": "nonce",
+      "expiresAt": 1763228629384
+    },
+    "fc5d00f2-1d45-4026-848f-2eb4d1a79f35": {
+      "type": "nonce",
+      "expiresAt": 1763228629528
+    },
+    "f16afbbe-1f80-4365-b418-647441fa6a63": {
+      "type": "nonce",
+      "expiresAt": 1763228837428
+    },
+    "9e04d64b-ff15-4c94-b4f8-d1ae07d44661": {
+      "type": "nonce",
+      "expiresAt": 1763228921489
+    },
+    "2bc05287-33ef-4360-b382-f9e4b1cac4fc": {
+      "type": "nonce",
+      "expiresAt": 1763228924696
+    },
+    "da5c417d-bc5d-4532-99c7-f172ffc0da73": {
+      "type": "nonce",
+      "expiresAt": 1763228928246
+    },
+    "4830da12-dcc3-4da0-a8fa-29e59a623052": {
+      "type": "nonce",
+      "expiresAt": 1763228938219
+    },
+    "565b41fb-be7d-48cd-8302-9dfcf96c57cc": {
+      "type": "nonce",
+      "expiresAt": 1763228945697
+    },
+    "df8b05e0-d96f-493e-b381-fca761758868": {
+      "type": "nonce",
+      "expiresAt": 1763229017128
+    },
+    "9ecf575f-0f31-4340-8662-076a6d41825d": {
+      "type": "nonce",
+      "expiresAt": 1763229051299
+    },
+    "fdb941cb-0c31-4f21-b459-ee94f5ef0164": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763228866280,
+      "lastHeartbeat": 1763228889596,
+      "elapsedMsServer": 23316,
+      "isAlive": false,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "0a6bb88f-ae1d-49d8-a8cf-e8fa7f7f4bad": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763229523476,
+      "lastHeartbeat": 1763229827146,
+      "elapsedMsServer": 303670,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "1b4587ed-8f80-4539-95bc-f2f16f204c10": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763229829531,
+      "lastHeartbeat": 1763229845370,
+      "elapsedMsServer": 15839,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "80514861-8316-4e9d-ba44-7cd708b4d674": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763229846972,
+      "lastHeartbeat": 1763230026863,
+      "elapsedMsServer": 179891,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "5bdd285c-8c65-4bfc-a52f-849b81baa9be": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230028409,
+      "lastHeartbeat": 1763230146274,
+      "elapsedMsServer": 117865,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "51b1a0aa-6a78-4899-a987-49b281a22947": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230148620,
+      "lastHeartbeat": 1763230220410,
+      "elapsedMsServer": 71790,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "d6428a6a-3496-466b-90a8-6b6942eb449e": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230221116,
+      "lastHeartbeat": 1763230505005,
+      "elapsedMsServer": 283889,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "252aa77b-177e-4ed2-8c7e-0a3962a07a4f": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230506947,
+      "lastHeartbeat": 1763230572812,
+      "elapsedMsServer": 65865,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "44da4b37-cfdd-4f46-bb0e-9a91b56301ac": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230574978,
+      "lastHeartbeat": 1763230816880,
+      "elapsedMsServer": 241902,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "3be2b4e2-d12c-4bb6-b408-650b4c744cc6": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230818127,
+      "lastHeartbeat": 1763230860024,
+      "elapsedMsServer": 41897,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "67030d67-fa9a-4559-85c8-749fae49caf5": {
+      "type": "game",
+      "walletAddress": "HDU6XUHc5bgV186NCG3oZjtNhVFGEH3N6dptxKCWKvp",
+      "startedAt": 1763230861431,
+      "lastHeartbeat": 1763230965349,
+      "elapsedMsServer": 103918,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    },
+    "3b56d516-329c-4a40-8f25-4c5aac144ac0": {
+      "type": "game",
+      "walletAddress": "29CerP61s3EWKTdHZf8mFCMFj48kiW3iw8WwcrUsCvNq",
+      "startedAt": 1763231292562,
+      "lastHeartbeat": 1763231840024,
+      "elapsedMsServer": 460358,
+      "isAlive": true,
+      "points": 0,
+      "pointsAwarded": 0
+    }
+  }
+}

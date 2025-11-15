@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>HAY Token Game</title>
+		<link rel="stylesheet" href="/style.css">
+	</head>
+	<body>
+		<div class="app">
+			<header class="topbar">
+				<div class="brand">
+					<div class="brand-logo">HAY</div>
+					<div class="brand-copy">
+						<strong>HAY Token Run</strong>
+						<span>Survive the neon desert, collect the cubes.</span>
+					</div>
+				</div>
+				<div class="wallet">
+					<div class="wallet-buttons">
+						<button id="connectBtn">Connect Phantom</button>
+						<button id="disconnectBtn" class="ghost" hidden>Disconnect</button>
+					</div>
+					<div id="walletStatus" class="wallet-status">Disconnected</div>
+				</div>
+			</header>
+			<main class="content">
+				<section class="sidebar">
+					<div class="card status-card glass">
+						<div class="status-header">
+							<div>
+								<div class="status-title">Pilot Status</div>
+								<div class="status-sub">Track your cube runner progression.</div>
+							</div>
+							<span class="status-chip offline" id="connectionState">Offline</span>
+						</div>
+						<div class="status-body">
+							<div class="status-row">
+								<span class="label">Wallet</span>
+								<span class="value code" id="walletAddr">-</span>
+							</div>
+							<div class="status-row">
+								<span class="label">Best Score</span>
+								<span class="value accent" id="bestScore">0</span>
+							</div>
+							<div class="status-row">
+								<span class="label">Current Score</span>
+								<span class="value" id="currentScore">0</span>
+							</div>
+						</div>
+					</div>
+					<div class="card glass leaderboard-card">
+						<h3>Leaderboard</h3>
+						<div class="leaderboard-description">
+							<p><strong>Weekly Rewards (Every Friday):</strong></p>
+							<ul class="rewards-list">
+								<li>1st place – 350K $HAY</li>
+								<li>2nd place – 200K $HAY</li>
+								<li>3rd place – 100K $HAY</li>
+								<li>4th–10th places – 50K $HAY each</li>
+							</ul>
+						</div>
+						<div id="leaderboard" class="leaderboard-list">
+							<div class="leaderboard-loading">Loading leaderboard...</div>
+						</div>
+					</div>
+				</section>
+				<section class="game-area">
+					<canvas id="gameCanvas" width="800" height="250"></canvas>
+					<div class="hud">
+						<div>Score: <span id="score">0</span></div>
+						<div>Time: <span id="time">0s</span></div>
+						<div>Round Points: <span id="roundMinutes">0</span></div>
+					</div>
+					<div class="controls">
+						<button id="startBtn">Start</button>
+						<button id="jumpBtn">Jump</button>
+					</div>
+					<div id="gameMsg" class="msg"></div>
+				</section>
+			</main>
+			<footer class="footer">
+				<div class="footer-content">
+					<span>Basic anti-bot protections enabled. Phantom wallet required.</span>
+					<a href="https://x.com/haycoinmeme" target="_blank" rel="noopener noreferrer" class="twitter-link">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+						</svg>
+						Follow us on X
+					</a>
+				</div>
+			</footer>
+		</div>
+		<script src="/wallet.js" type="module"></script>
+		<script src="/game.js" type="module"></script>
+	</body>
+</html>
+
+
