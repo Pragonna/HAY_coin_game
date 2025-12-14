@@ -17,6 +17,9 @@
     "nodemailer": "^6.9.13",
     "rate-limiter-flexible": "^5.0.0",
     "uuid": "^9.0.1"
-  }
+  },
+  "engines": {
+  "node": ">=20"
+}
 }
 
